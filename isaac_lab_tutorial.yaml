@@ -1,0 +1,27 @@
+services:
+  isaac-lab-base:
+    environment:
+      - MY_CUSTOM_ENV=1
+    volumes:
+      - type: bind
+        source: ~/workspaces/isaac_lab_tutorial
+        target: /workspace/isaac_lab_tutorial
+    # working_dir: /workspace/isaac_lab_tutorial
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    runtime: nvidia
+    
+  isaac-lab-ros2:
+    environment:
+      - MY_CUSTOM_ENV=1
+    volumes:
+      - type: bind
+        source: ~/workspaces/isaac_lab_tutorial
+        target: /workspace/isaac_lab_tutorial
+    # working_dir: /workspace/isaac_lab_tutorial
+
