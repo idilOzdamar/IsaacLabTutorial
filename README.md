@@ -21,7 +21,7 @@ $docker login nvcr.io
 $Username: $oauthtoken
 $password: (enter your token fro nvidia webside)
 ```
-To create a new project without cloning this repository and starting from initial IsaacLabTutorial see [➡ New Setup From Scratch](#New Setup From Scratch) (I modified mine to follow the tutorial)
+**🔵 To create a new project without cloning this repository and starting from initial IsaacLabTutorial see [➡ New Setup From Scratch](#new-setup-from-scratch) (I modified mine to follow the tutorial) 🔵 **
 
 
 
