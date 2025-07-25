@@ -1,4 +1,4 @@
-# Template for Isaac Lab Projects
+# Isaac Lab Tutorial Project
 
 ## Overview
 
@@ -14,63 +14,99 @@ It allows you to develop in an isolated environment, outside of the core Isaac L
 
 ## Installation
 
-- Install Isaac Lab by following the [installation guide](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html).
-  We recommend using the conda installation as it simplifies calling Python scripts from the terminal.
+**Install Isaac Lab**
 
-- Clone or copy this project/repository separately from the Isaac Lab installation (i.e. outside the `IsaacLab` directory):
+```bash
+$docker login nvcr.io
+$Username: $oauthtoken
+$password: (enter your token fro nvidia webside)
+```
+To create a new project without cloning this repository and starting from initial IsaacLabTutorial see [➡ New Setup From Scratch](#New Setup From Scratch) (I modified mine to follow the tutorial)
 
-- Using a python interpreter that has Isaac Lab installed, install the library in editable mode using:
 
-    ```bash
-    # use 'PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-    python -m pip install -e source/isaac_lab_tutorial
 
-- Verify that the extension is correctly installed by:
+Clone isaaclab repository
+```bash
+$cd workspaces/
+git clone git@github.com:isaac-sim/IsaacLab.git
+```
+-> [IsaacLab GitHub repository](https://github.com/isaac-sim/IsaacLab)
 
-    - Listing the available tasks:
+When you run ./docker/container.py start, it builds the image if it hasn't already been built, then runs it as a Docker container with mounted folders and optional extensions (like ROS 2, WebRTC, etc.).
 
-        Note: It the task name changes, it may be necessary to update the search pattern `"Template-"`
-        (in the `scripts/list_envs.py` file) so that it can be listed.
+```bash
+$cd IsaacLab
+$./docker/container.py start base
+```
 
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/list_envs.py
-        ```
+The information related to using IsaacLab in container:
+https://isaac-sim.github.io/IsaacLab/main/source/deployment/docker.html
 
-    - Running a task:
 
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/<RL_LIBRARY>/train.py --task=<TASK_NAME>
-        ```
+**Clone this project/repository separately from the Isaac Lab installation (i.e. outside the `IsaacLab` directory but in same folder)**
 
-    - Running a task with dummy agents:
+To run the container with both IsaacLab and our repository mounted enter:
 
-        These include dummy agents that output zero or random agents. They are useful to ensure that the environments are configured correctly.
+```bash
+$ cd IsaacLab/docker
+$ ./container.py start base --files ~/workspaces/isaac_lab_tutorial/isaac_lab_tutorial.yaml
+```
 
-        - Zero-action agent
+Inside container run the setup_isaac_lab.sh file to source isaac_lab_tutorial package and to use python interpreter that  Isaac Lab environment installed. (be sure $chmod +x setup_isaac_lab.sh)
 
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/zero_agent.py --task=<TASK_NAME>
-            ```
-        - Random-action agent
+```bash
+$ cd workspace/IsaacLabTutorial
+$ ./setup_isaac_lab.sh
+```
 
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/random_agent.py --task=<TASK_NAME>
-            ```
+**Verify that the extension is correctly installed by listing the available tasks**
 
-### Set up IDE (Optional)
+```bash
+$ cd workspace/IsaacLabTutorial
+$ python scripts/list_envs.py
+```
 
-To setup the IDE, please follow these instructions:
+**Running a task:**
 
-- Run VSCode Tasks, by pressing `Ctrl+Shift+P`, selecting `Tasks: Run Task` and running the `setup_python_env` in the drop down menu.
-  When running this task, you will be prompted to add the absolute path to your Isaac Sim installation.
+```bash
+# use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
+$ python scripts/skrl/train.py --task=Template-Isaac-Lab-Tutorial-Direct-v0
+```
 
-If everything executes correctly, it should create a file .python.env in the `.vscode` directory.
-The file contains the python paths to all the extensions provided by Isaac Sim and Omniverse.
-This helps in indexing all the python modules for intelligent suggestions while writing code.
+
+## New Setup From Scratch
+
+Enter isaac-lab-base container and run
+```bash
+$ cd isaaclab
+$ ./isaaclab.sh --new
+```
+Be sure to select **External** and **Direct** | single agent. For the frameworks, select **skrl** and both **PPO** and **AMP** on the following menu. You can select other frameworks if you like, but this tutorial will detail skrl specifically. The configuration process for other frameworks is similar. You can get a copy of this code directly by checking out the initial branch of the tutorial repository!
+
+This will create an extension project with the specified name at the chosen path. For me, I chose the name isaac_lab_tutorial.
+
+In the container run following commands to see everthing works perfectly or not
+Enter isaac-lab-base container and run
+```bash
+$ cd isaaclab
+$ python -m pip install -e source/isaac_lab_tutorial
+$ python scripts/list_envs.py
+$ python scripts/skrl/train.py --task=Template-Isaac-Lab-Tutorial-Direct-v0
+```
+To export newly created package inside container run the following command (outside the docker)
+
+```bash
+$ docker cp isaac-lab-base:/workspace/isaac_lab_tutorial ~/workspaces/
+```
+
+I added isaac_lab_tutorial.yaml file to mount the exported package to the isaaclab container. So in the following command --file combines the docker-compose.yalm file of the IsaacLab and ours "isaac_lab_tutorial.yaml" With this way the  default IsaacLab docker building procedure will be kept all dependencies are well set and uploaded and our package can work with it.
+
+```bash
+$ cd IsaacLab/docker
+$ ./container.py start base --files ~/workspaces/isaac_lab_tutorial/isaac_lab_tutorial.yaml
+```
+
+
 
 ### Setup as Omniverse Extension (Optional)
 
@@ -89,47 +125,3 @@ To enable your extension, follow these steps:
     - Find your extension under the `Third Party` category.
     - Toggle it to enable your extension.
 
-## Code formatting
-
-We have a pre-commit template to automatically format your code.
-To install pre-commit:
-
-```bash
-pip install pre-commit
-```
-
-Then you can run pre-commit with:
-
-```bash
-pre-commit run --all-files
-```
-
-## Troubleshooting
-
-### Pylance Missing Indexing of Extensions
-
-In some VsCode versions, the indexing of part of the extensions is missing.
-In this case, add the path to your extension in `.vscode/settings.json` under the key `"python.analysis.extraPaths"`.
-
-```json
-{
-    "python.analysis.extraPaths": [
-        "<path-to-ext-repo>/source/isaac_lab_tutorial"
-    ]
-}
-```
-
-### Pylance Crash
-
-If you encounter a crash in `pylance`, it is probable that too many files are indexed and you run out of memory.
-A possible solution is to exclude some of omniverse packages that are not used in your project.
-To do so, modify `.vscode/settings.json` and comment out packages under the key `"python.analysis.extraPaths"`
-Some examples of packages that can likely be excluded are:
-
-```json
-"<path-to-isaac-sim>/extscache/omni.anim.*"         // Animation packages
-"<path-to-isaac-sim>/extscache/omni.kit.*"          // Kit UI tools
-"<path-to-isaac-sim>/extscache/omni.graph.*"        // Graph UI tools
-"<path-to-isaac-sim>/extscache/omni.services.*"     // Services tools
-...
-```
