@@ -21,8 +21,17 @@ $docker login nvcr.io
 $Username: $oauthtoken
 $password: (enter your token fro nvidia webside)
 ```
-**🔵 To create a new project without cloning this repository and starting from initial IsaacLabTutorial see [➡ New Setup From Scratch](#new-setup-from-scratch) (I modified mine to follow the tutorial) 🔵 **
 
+
+🛑 **READ HERE:** To create a new project without cloning this repository and starting from initial IsaacLabTutorial see
+
+ [➡ New Setup From Scratch](#new-setup-from-scratch) 
+
+ This is the modofoed repository while I was following the tutorial and playing with the code
+
+🛑 **READ HERE:** To work with WebRTC streaming (without GUI) from the local computer see the usefull commands: 
+
+[➡ Usefull WebRTC Commands](#useful-webrtc-commands)
 
 
 Clone isaaclab repository
@@ -56,8 +65,10 @@ Inside container run the setup_isaac_lab.sh file to source isaac_lab_tutorial pa
 
 ```bash
 $ cd workspace/IsaacLabTutorial
-$ ./setup_isaac_lab.sh
+$ source ./setup_isaac_lab.sh
 ```
+
+Be sure make "source" in order to keep the enviromental variables after .sh script finished.
 
 **Verify that the extension is correctly installed by listing the available tasks**
 
@@ -106,6 +117,27 @@ $ cd IsaacLab/docker
 $ ./container.py start base --files ~/workspaces/isaac_lab_tutorial/isaac_lab_tutorial.yaml
 ```
 
+## Usefull WebRTC Commands
+
+The command below retrieves the local IP address of your machine and launches the simulation script (launch_app.py) with livestreaming and camera features enabled. It sets environment variables (LIVESTREAM=2, ENABLE_CAMERAS=1, and PUBLIC_IP) and passes the local IP and a specific port (49100) to the Isaac Sim livestream configuration via --kit_args. If you want more detailed information about the argumants see the spesific directory <span style="color:red">/IsaacLab/source/isaaclab/isaaclab/app/app_launcher.py</span>
+
+
+
+This allows the simulation to be accessed remotely for visualization through the specified IP and port. 
+
+
+```bash
+LOCAL_IP=$(hostname -I | awk '{print $1}') && LIVESTREAM=2 ENABLE_CAMERAS=1 PUBLIC_IP=$LOCAL_IP python scripts/tutorials/00_sim/launch_app.py --size 0.3 --kit_args "--/app/livestream/publicEndpointAddress=$LOCAL_IP --/app/livestream/port=49100"
+```
+
+<span style="color:gray">I added LOCAL_IP, --kit_args, PUBLIC_IP, etc., to the **setup_isaac_lab.sh** script. Now, if the computer configuration does not change, running this script once is equivalent to setting those parameters manually on the command line. You can customize **setup_isaac_lab.sh** according to your needs </span>
+
+
+
+```bash
+$ cd isaac_lab_tutorial
+python scripts/tutorials/00_sim/launch_app.py --size 0.3
+```
 
 
 ### Setup as Omniverse Extension (Optional)
