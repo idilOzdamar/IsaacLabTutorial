@@ -46,10 +46,18 @@ from isaaclab.utils import configclass
 ##
 from isaaclab_assets import CARTPOLE_CFG  # isort:skip
 
+# configuration class that inherits from InteractiveSceneCfg
+# The configuration class is then passed to the scene.InteractiveScene constructor to create the scene.
 
 @configclass
 class CartpoleSceneCfg(InteractiveSceneCfg):
     """Configuration for a cart-pole scene."""
+
+    # The ground plane and light source are non-interactive prims, while the cartpole is an interactive prim. 
+    # This distinction is reflected in the configuration classes used to specify them. The configurations for the ground plane 
+    # and light source are specified using an instance of the assets.AssetBaseCfg class while the cartpole is 
+    # configured using an instance of the assets.ArticulationCfg. Anything that is not an interactive prim 
+    # (i.e., neither an asset nor a sensor) is not handled by the scene during simulation steps.
 
     # ground plane
     ground = AssetBaseCfg(prim_path="/World/defaultGroundPlane", spawn=sim_utils.GroundPlaneCfg())
@@ -60,7 +68,12 @@ class CartpoleSceneCfg(InteractiveSceneCfg):
     )
 
     # articulation
+    # Any entity that has the ENV_REGEX_NS variable in its prim path will be cloned for each environment. 
+    # This path is replaced by the scene object with /World/envs/env_{i} where i is the environment index.
     cartpole: ArticulationCfg = CARTPOLE_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    
+    # cartpole ismi aynı zamanda bu asset’e sahne içinde referans vermek için kullanılır.
+    # scene["cartpole"]
 
 
 def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):

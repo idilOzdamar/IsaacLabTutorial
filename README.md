@@ -27,7 +27,7 @@ $password: (enter your token fro nvidia webside)
 
  [➡ New Setup From Scratch](#new-setup-from-scratch) 
 
- This is the modofoed repository while I was following the tutorial and playing with the code
+ This is the modified repository while I was following the tutorial and playing with the code
 
 🛑 **READ HERE:** To work with WebRTC streaming (without GUI) from the local computer see the usefull commands: 
 
@@ -71,6 +71,8 @@ $ source ./setup_isaac_lab.sh
 Be sure make "source" in order to keep the enviromental variables after .sh script finished.
 
 **Verify that the extension is correctly installed by listing the available tasks**
+
+-Sometimes in the first attempt it gives error so try again. Also it takes time to produce output (wait around 2 minutes)
 
 ```bash
 $ cd workspace/IsaacLabTutorial

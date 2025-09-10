@@ -36,6 +36,25 @@ JETBOT_CONFIG = ArticulationCfg(
     actuators={"wheel_acts": ImplicitActuatorCfg(joint_names_expr=[".*"], damping=None, stiffness=None)},
 )
 
+
+# === SUMMIT XL CONFIG ===
+
+SUMMIT_CONFIG = ArticulationCfg(
+    spawn=sim_utils.UsdFileCfg(usd_path="/workspace/isaac_lab_tutorial/robots/WheeledRobot/summit_xl_original.usd"),
+    actuators={
+        "wheels": ImplicitActuatorCfg(
+            joint_names_expr=[
+                "summit_xl_front_left_wheel_joint",
+                "summit_xl_front_right_wheel_joint",
+                "summit_xl_back_left_wheel_joint",
+                "summit_xl_back_right_wheel_joint"
+            ],
+            stiffness=None,
+            damping=None
+        )
+    }
+)
+
 DOFBOT_CONFIG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         usd_path=f"{ISAAC_NUCLEUS_DIR}/Robots/Dofbot/dofbot.usd",

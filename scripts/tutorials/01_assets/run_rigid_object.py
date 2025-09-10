@@ -56,7 +56,17 @@ def design_scene():
     # Each group will have a robot in it
     origins = [[0.25, 0.25, 0.0], [-0.25, 0.25, 0.0], [0.25, -0.25, 0.0], [-0.25, -0.25, 0.0]]
     for i, origin in enumerate(origins):
+        # enumerate her eleman için hem index (i) hem de değeri (origin) verir
         prim_utils.create_prim(f"/World/Origin{i}", "Xform", translation=origin)
+        # f"/World/Origin{i}" Oluşturulacak nesnenin yolu.
+        # Oluşturulacak nesnenin yolu.
+
+
+    # As an example on spawning the rigid object prim multiple times, we create its parent Xform prims, /World/Origin{i},
+    #  that correspond to different spawn locations. When the regex expression /World/Origin.*/Cone is passed to the assets.
+    #  RigidObject class, it spawns the rigid object prim at each of the /World/Origin{i} locations. For instance, 
+    #  if /World/Origin1 and /World/Origin2 are present in the scene, the rigid object prims are spawned at the locations 
+    #  /World/Origin1/Cone and /World/Origin2/Cone respectively.
 
     # Rigid Object
     cone_cfg = RigidObjectCfg(
@@ -74,6 +84,7 @@ def design_scene():
     cone_object = RigidObject(cfg=cone_cfg)
 
     # return the scene information
+    # cone_object bu 4 tane koniyi bir arada yönetiyor.
     scene_entities = {"cone": cone_object}
     return scene_entities, origins
 
@@ -99,9 +110,12 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, RigidObj
             root_state = cone_object.data.default_root_state.clone()
             # sample a random position on a cylinder around the origins
             root_state[:, :3] += origins
+            # cone larin konumlari silindir içinde rastgele bir konum samplelayarak degistiriliyor
+
             root_state[:, :3] += math_utils.sample_cylinder(
-                radius=0.1, h_range=(0.25, 0.5), size=cone_object.num_instances, device=cone_object.device
+                radius=0.1, h_range=(0.35, 0.5), size=cone_object.num_instances, device=cone_object.device
             )
+
             # write root state to simulation
             cone_object.write_root_pose_to_sim(root_state[:, :7])
             cone_object.write_root_velocity_to_sim(root_state[:, 7:])
@@ -111,6 +125,12 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, RigidObj
             print("[INFO]: Resetting object state...")
         # apply sim data
         cone_object.write_data_to_sim()
+
+        #  Before stepping the simulation, we perform the assets.RigidObject.write_data_to_sim() method.
+        #  This method writes other data, such as external forces, into the simulation buffer. In this tutorial, 
+        #  we do not apply any external forces to the rigid object, so this method is not necessary. 
+        #  However, it is included for completeness.
+
         # perform step
         sim.step()
         # update sim-time

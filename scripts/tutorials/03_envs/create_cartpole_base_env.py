@@ -39,7 +39,9 @@ import math
 import torch
 
 import isaaclab.envs.mdp as mdp
+# mdp: (Markov Decision Process): Contains functions to define actions, observations, resets, and dynamics.
 from isaaclab.envs import ManagerBasedEnv, ManagerBasedEnvCfg
+# ManagerBasedEnv: A high-level wrapper to combine scene + action + observation + reset + reward logic.
 from isaaclab.managers import EventTermCfg as EventTerm
 from isaaclab.managers import ObservationGroupCfg as ObsGroup
 from isaaclab.managers import ObservationTermCfg as ObsTerm
@@ -73,6 +75,7 @@ class ObservationsCfg:
             self.concatenate_terms = True
 
     # observation groups
+    # Kodun amacı: "Ajan ne görecek?" sorusunu cevaplamak.
     policy: PolicyCfg = PolicyCfg()
 
 

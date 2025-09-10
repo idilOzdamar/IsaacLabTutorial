@@ -59,6 +59,11 @@ def design_scene():
         prim_utils.create_prim(f"/World/Origin{i}", "Xform", translation=origin)
 
     # Deformable Object
+    # contact_offset: Çarpışma olup olmadığını anlamak için kullanılan mesafe toleransıdır 
+    # poissons_ratio: Enine/genişleme oranı. 0.4, nispeten esnek bir malzeme demek
+    # youngs_modulus: Malzemenin sertliğini belirler. Yüksekse daha az esner. (Pa — Pascal)
+    # metre cinsinden uzunluklar
+
     cfg = DeformableObjectCfg(
         prim_path="/World/Origin.*/Cube",
         spawn=sim_utils.MeshCuboidCfg(
@@ -70,7 +75,7 @@ def design_scene():
         init_state=DeformableObjectCfg.InitialStateCfg(pos=(0.0, 0.0, 1.0)),
         debug_vis=True,
     )
-    cube_object = DeformableObject(cfg=cfg)
+    cube_object = DeformableObject(cfg=cfg) # 4 tane
 
     # return the scene information
     scene_entities = {"cube_object": cube_object}
@@ -101,18 +106,30 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, Deformab
 
             # reset the nodal state of the object
             nodal_state = cube_object.data.default_nodal_state_w.clone()
-            # apply random pose to the object
+            # apply random start pose to the object
+            # torch.rand(...): [0,1) aralığında rastgele sayı üretir.
+            # cube_object.num_instances: Kaç adet küp varsa o kadar rastgele konum üretilecek.
+            # 3: (x, y, z) konumu.
+            # device=sim.device: Bu tensör, simülasyonun GPU/CPU'suna uygun belleğe oluşturulur.
+            # * 0.1: Konumlar 0.0–0.1 metre arasında olur.
+            # + origins: Bu rastgele konumlar, Origin0, Origin1, ... gibi küplerin yerleştirildiği merkezlere kaydırılır.
+
             pos_w = torch.rand(cube_object.num_instances, 3, device=sim.device) * 0.1 + origins
             quat_w = math_utils.random_orientation(cube_object.num_instances, device=sim.device)
             nodal_state[..., :3] = cube_object.transform_nodal_pos(nodal_state[..., :3], pos_w, quat_w)
 
             # write nodal state to simulation
+            # Değiştirilen nodal konumları doğrudan simülasyona aktarır.
+            # Bu sadece başlangıçta bir pozisyon atamak veya bir sıfırlama yapmak için kullanılır.
             cube_object.write_nodal_state_to_sim(nodal_state)
 
             # Write the nodal state to the kinematic target and free all vertices
+            # Nodal noktalar o pozisyonda kalmaya zorlanır (örneğin cismi elle tutmak gibi). 
+            # Eğer nodal_kinematic_target[..., 3] = 0.0 yapılırsa → bu nodal noktalar fiziksel olarak sabit olur.
             nodal_kinematic_target[..., :3] = nodal_state[..., :3]
-            nodal_kinematic_target[..., 3] = 1.0
+            nodal_kinematic_target[..., 3] = 1.0 #free
             cube_object.write_nodal_kinematic_target_to_sim(nodal_kinematic_target)
+
 
             # reset buffers
             cube_object.reset()
@@ -127,6 +144,7 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, Deformab
         # 0: constrained, 1: free
         nodal_kinematic_target[[0, 3], 0, 3] = 0.0
         # write kinematic target to simulation
+
         cube_object.write_nodal_kinematic_target_to_sim(nodal_kinematic_target)
 
         # write internal data to simulation
@@ -146,12 +164,14 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, Deformab
 def main():
     """Main function."""
     # Load kit helper
+    # SimulationContext sınıfı, bu konfigürasyon parametrelerini alıp simülasyon ortamını başlatır, hazırlar
     sim_cfg = sim_utils.SimulationCfg(device=args_cli.device)
     sim = SimulationContext(sim_cfg)
     # Set main camera
     sim.set_camera_view(eye=[3.0, 0.0, 1.0], target=[0.0, 0.0, 0.5])
     # Design scene
     scene_entities, scene_origins = design_scene()
+    # NumPy dizisini torch tensorune donusturuyo. optimizasyon
     scene_origins = torch.tensor(scene_origins, device=sim.device)
     # Play the simulator
     sim.reset()
