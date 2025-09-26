@@ -1,0 +1,50 @@
+4244,MarkQosNameValue,RivermaxEnabled,0
+4244,MarkQosNameValue,L4S Enabled (Downstream),0
+4244,MarkQosNameValue,DVS P4VirtualChangelist,35560324
+4244,MarkQosNameValue,Format,H264
+4244,MarkQosNameValue,HostName,U16-I3-D16-4-2
+4244,MarkQosNameValue,Windows Version,non-Windows
+4244,MarkQosNameValue,VideoEncoderClassId,0xC7B7
+4244,MarkQosNameValue,Streaming Mode,1920x1080p60
+4244,MarkQosNameValue,GPU Detail,Mesa Intel(R) Xe Graphics (TGL GT2)
+4244,MarkQosNameValue,IsCoProc,0
+4244,MarkQosNameValue,DVS Branch,gcomp/rel/gs_04_72
+4244,MarkQosNameValue,DriverBranch,NVIDIA UNIX x86_64 Kernel Module  570.172.08  Tue Jul  8 18:31:33 UTC 2025
+4244,MarkQosNameValue,Device,NVIDIA RTX A5000
+4244,MarkQosNameValue,AdapterRefreshRate,60.0
+4244,MarkQosNameValue,L4S Enabled for Video (Downstream),0
+4244,MarkQosNameValue,L4S Enabled for Audio (Downstream),0
+4244,MarkQosNameValue,AdapterWidth,1280
+4244,MarkQosNameValue,LtrEnabled,0
+4244,MarkQosNameValue,L4S Enabled (Upstream),0
+4244,MarkQosNameValue,SurfaceBitDepth,8
+4244,MarkQosNameValue,EncoderInputSurfaceFormat,invalid_format
+4244,MarkQosNameValue,AllTransitSelectionValuesApplied,
+4244,MarkQosNameValue,StreamProfileType,Gaming_LAN
+4244,MarkQosNameValue,DriverVersion,570.17
+4244,MarkQosNameValue,DataChannelMode,DcSCTP
+4244,MarkQosNameValue,TransitSelectionValueApplied,0
+4244,MarkQosNameValue,AllTransitSelectionValuesForwarded,
+4244,MarkQosNameValue,AdapterHeight,720
+4244,MarkQosNameValue,TransitSelectionValueForwarded,0
+4244,MarkQos,StreamServerBackendMode is 2
+4244,MarkQos,stream 0 nvtime::sessionStartTime[us] on server: 96547810534
+4244,MarkQos,RL QOS disabled for stream: 0
+4244,MarkQos,Max Fps is 60
+4244,MarkQos,NvRtcClient Browser name: Chromium, Browser version: 138.0.7204.97
+4244,MarkQos,ClientGenericMapping: {ProcCpuUsage, TotalCpuUsage}
+4244,MarkQos,Fallback to software decode at frame 0
+4244,MarkQos,Stream[0]: Client display[-1] resolution : {physical : 1920x1080@0, logical : 1920x1080@0} at frame#0 topology: 3
+4244,MarkQos,Stream[0]: Client display[-1] resolution : {physical : 1920x1080@0, logical : 1920x1080@0} at frame#0 topology: 3
+4244,MarkQos,Stream[0]: Client display[-1] resolution : {physical : 1920x1080@0, logical : 1920x1080@0} at frame#0 topology: 3
+4244,MarkQos,Stream[0]: Client display[-1] resolution : {physical : 1920x1080@0, logical : 1920x1080@0} at frame#0 topology: 3
+4244,MarkGsBlobStats,0x1B01000000000000030003001C01000000000000000000001B01000000000000020003000C020000010000000000000000000000000000000000000000002601000001000000009CDA010000000000000000000000000202000001000000000000000FFE070100000000000000003C000000000000000000000000001B01000000000000030002001B0100000000000002000300
+4821,MarkQosServerControlChannelStatsV0,117714999,0,784,1,24
+4821,MarkQosServerControlChannelStatsV0,117714999,0,785,7,607
+4821,MarkQosServerControlChannelStatsV0,117714999,0,797,1,5
+4821,MarkQosServerControlChannelStatsV0,117714999,0,798,1,1032
+4821,MarkQosServerControlChannelStatsV0,117714999,0,800,4,48
+4821,MarkQosServerControlChannelStatsV0,117714999,0,801,1,12
+4821,MarkQos,Number of delayed commands: 0
+4821,MarkQos,Audio drift stats - Ratio: 0.000000, Total Drift: 0 ms, Packet Count: 0
+4821,MarkGsBlobStats,0x19010000000000000C0005F0BFF621F3501E85AA0500000080070000400400003C000000010000000000000002000000020000000F0000000F0000000F0000000000000000000000000000901302000100000001000000010000000D00000000000000000000000000000000000000000000000000000000000000000000002501000001000000000000000000000000000000

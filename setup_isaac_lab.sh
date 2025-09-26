@@ -10,8 +10,8 @@ LOCAL_IP=$(hostname -I | awk '{print $1}')
 export PUBLIC_IP=$LOCAL_IP
 
 # # Current streaming selection. Info: LIVESTREAM=2 is for no GUI and with WebRTC (--headless)
-# export HEADLESS=0
-# export LIVESTREAM=2
+export HEADLESS=0
+export LIVESTREAM=2
 export ENABLE_CAMERAS=1
 
 export KIT_ARGS="--/app/livestream/publicEndpointAddress=$LOCAL_IP --/app/livestream/port=49200"

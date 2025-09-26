@@ -6,6 +6,9 @@ services:
       - type: bind
         source: ~/workspaces/isaac_lab_tutorial
         target: /workspace/isaac_lab_tutorial
+      - type: bind
+        source: ~/workspaces/mushr-master
+        target: /workspace/mushr-master
     working_dir: /workspace/isaac_lab_tutorial
     deploy:
       resources:
@@ -23,6 +26,9 @@ services:
       - type: bind
         source: ~/workspaces/isaac_lab_tutorial
         target: /workspace/isaac_lab_tutorial
+      - type: bind
+        source: ~/workspaces/mushr-master
+        target: /workspace/mushr-master
     working_dir: /workspace/isaac_lab_tutorial
     deploy:
       resources:
