@@ -14,7 +14,7 @@ export HEADLESS=0
 export LIVESTREAM=2
 export ENABLE_CAMERAS=1
 
-export KIT_ARGS="--/app/livestream/publicEndpointAddress=$LOCAL_IP --/app/livestream/port=49200"
+export KIT_ARGS="--/app/livestream/publicEndpointAddress=$LOCAL_IP --/app/livestream/port=49100"
 
 echo "KIT_ARGS set as: $KIT_ARGS"
 

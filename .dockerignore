@@ -26,4 +26,4 @@ _isaac_sim?
 # Docker history
 docker/.isaac-lab-docker-history
 # ignore data
-${data}/
+

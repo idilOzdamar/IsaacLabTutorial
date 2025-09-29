@@ -7,6 +7,12 @@ services:
         source: ~/workspaces/isaac_lab_tutorial
         target: /workspace/isaac_lab_tutorial
       - type: bind
+        source: ~/workspaces/push_docker_ws
+        target: /workspace/push_docker_ws
+      - type: bind
+        source: ~/workspaces/push_ws
+        target: /workspace/push_ws
+      - type: bind
         source: ~/workspaces/mushr-master
         target: /workspace/mushr-master
     working_dir: /workspace/isaac_lab_tutorial
@@ -27,8 +33,11 @@ services:
         source: ~/workspaces/isaac_lab_tutorial
         target: /workspace/isaac_lab_tutorial
       - type: bind
-        source: ~/workspaces/mushr-master
-        target: /workspace/mushr-master
+        source: ~/workspaces/push_docker_ws
+        target: /workspace/push_docker_ws
+      - type: bind
+        source: ~/workspaces/push_ws
+        target: /workspace/push_ws
     working_dir: /workspace/isaac_lab_tutorial
     deploy:
       resources:
