@@ -69,4 +69,8 @@ tests/
 
 # Docker history
 .isaac-lab-docker-history
-${data}/
+
+# anywhere in repo untract ${data}
+**/${data}/    
+
+##

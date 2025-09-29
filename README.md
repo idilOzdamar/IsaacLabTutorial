@@ -98,7 +98,7 @@ Be sure to select **External** and **Direct** | single agent. For the frameworks
 
 This will create an extension project with the specified name at the chosen path. For me, I chose the name isaac_lab_tutorial.
 
-In the container run following commands to see everthing works perfectly or not
+In the container run following commands to see everthing works perfectly or not.
 Enter isaac-lab-base container and run
 ```bash
 $ cd isaaclab
